@@ -18,9 +18,11 @@ A production-ready FastAPI application for processing Prometheus Alertmanager we
 
 - **[Installation Guide](docs/INSTALL.md)** - Complete installation instructions
 - **[Docker Installation](docs/DOCKER_INSTALL.md)** - Docker setup guide
-- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Common commands and troubleshooting
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Common commands and operations
 - **[Command Cheatsheet](docs/CHEATSHEET.md)** - Quick command reference
 - **[Architecture](docs/ARCHITECTURE.md)** - Detailed system architecture
+- **[Migration Summary](docs/MIGRATION_SUMMARY.md)** - PostgreSQL to MariaDB migration details
 - **[Extraction Guide](docs/EXTRACTION_GUIDE.md)** - Tarball extraction help
 
 ## Architecture
@@ -427,6 +429,28 @@ route:
 ```
 
 ## Troubleshooting
+
+### Common Issues After Migration
+
+If you encounter errors like:
+- `ModuleNotFoundError: No module named 'pymysql'`
+- `Error: No such command 'flower'`
+
+These occur when Docker images weren't rebuilt after the PostgreSQL to MariaDB migration.
+
+**Quick Fix:**
+```bash
+# Use the fix script (recommended)
+chmod +x fix.sh
+./fix.sh
+
+# Or manually rebuild
+docker-compose down --rmi all
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+See **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** for detailed solutions to all common issues.
 
 ### Database Connection Issues
 

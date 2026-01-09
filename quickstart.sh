@@ -30,13 +30,18 @@ else
 fi
 echo ""
 
+# Build Docker images
+echo "Building Docker images..."
+docker-compose build --no-cache
+
+echo ""
 # Start Docker services
 echo "Starting Docker services..."
 docker-compose up -d
 
 echo ""
 echo "Waiting for services to be ready..."
-sleep 10
+sleep 15
 
 # Check service health
 echo ""
@@ -63,7 +68,7 @@ echo "Available services:"
 echo "   - API: http://localhost:8000"
 echo "   - API Docs: http://localhost:8000/docs"
 echo "   - Flower Dashboard: http://localhost:5555"
-echo "   - PostgreSQL: localhost:5432"
+echo "   - MariaDB: localhost:3306"
 echo "   - Redis: localhost:6379"
 echo ""
 echo "Test the API with:"
