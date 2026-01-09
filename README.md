@@ -435,8 +435,9 @@ route:
 If you encounter errors like:
 - `ModuleNotFoundError: No module named 'pymysql'`
 - `Error: No such command 'flower'`
+- `database: "unhealthy: Textual SQL expression...should be explicitly declared as text()"`
 
-These occur when Docker images weren't rebuilt after the PostgreSQL to MariaDB migration.
+These occur when Docker images need to be rebuilt.
 
 **Quick Fix:**
 ```bash
@@ -450,7 +451,7 @@ docker-compose build --no-cache
 docker-compose up -d
 ```
 
-See **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** for detailed solutions to all common issues.
+See **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** for detailed solutions and **[docs/SQLALCHEMY_FIX.md](docs/SQLALCHEMY_FIX.md)** for SQLAlchemy 2.0 compatibility notes.
 
 ### Database Connection Issues
 

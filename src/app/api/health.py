@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from typing import Dict, Any
 from fastapi import APIRouter, Depends
-from sqlalchemy import func
+from sqlalchemy import func, text
 from sqlalchemy.orm import Session
 from app.core.database import get_db, engine
 from app.core.config import settings
@@ -27,7 +27,7 @@ def health_check(db: Session = Depends(get_db)) -> HealthResponse:
     
     # Check database
     try:
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db_status = "healthy"
     except Exception as e:
         db_status = f"unhealthy: {str(e)}"
@@ -74,7 +74,7 @@ def readiness_check(db: Session = Depends(get_db)) -> Dict[str, Any]:
     
     try:
         # Check if database is ready
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         
         # Check if Redis is ready
         r = redis.from_url(settings.redis_url)

@@ -6,7 +6,12 @@ set -e
 echo "PoundCake API - Quick Fix"
 echo "=========================="
 echo ""
-echo "This will:"
+echo "This will fix common issues:"
+echo "  - ModuleNotFoundError: No module named 'pymysql'"
+echo "  - Error: No such command 'flower'"
+echo "  - SQLAlchemy 2.0 text() requirement"
+echo ""
+echo "Steps:"
 echo "  1. Stop all services"
 echo "  2. Remove old images"
 echo "  3. Rebuild with no cache"
@@ -66,6 +71,17 @@ if docker-compose exec -T mariadb mariadb -upoundcake -ppoundcake -e "SELECT 1" 
     echo "  MariaDB: OK"
 else
     echo "  MariaDB: FAILED (check logs: docker-compose logs mariadb)"
+fi
+
+# Check database health
+echo ""
+echo "Testing database health check..."
+HEALTH=$(curl -s http://localhost:8000/api/v1/health)
+if echo "$HEALTH" | grep -q '"database":"healthy"'; then
+    echo "  Database health: OK"
+else
+    echo "  Database health: ISSUE"
+    echo "  Response: $HEALTH"
 fi
 
 echo ""
