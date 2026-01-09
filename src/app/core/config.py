@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     api_workers: int = 4
     
     # Database
-    database_url: str = "postgresql://postgres:postgres@localhost:5432/poundcake"
+    database_url: str = "mysql+pymysql://poundcake:poundcake@localhost:3306/poundcake"
     database_echo: bool = False
     
     # Redis

@@ -55,7 +55,7 @@ fastapi>=0.109.0
 uvicorn[standard]>=0.27.0
 sqlalchemy>=2.0.25
 alembic>=1.13.1
-psycopg2-binary>=2.9.9
+pymysql>=2.9.9
 celery[redis]>=5.3.6
 redis>=5.0.1
 pydantic>=2.6.0
@@ -90,17 +90,17 @@ python3 --version
 #### Ubuntu/Debian
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3.11 python3.11-venv python3-dev libpq-dev gcc
+sudo apt-get install -y python3.11 python3.11-venv python3-dev default-libmysqlclient-dev gcc
 ```
 
 #### CentOS/RHEL
 ```bash
-sudo yum install -y python311 python311-devel postgresql-devel gcc
+sudo yum install -y python311 python311-devel mysql+pymysql-devel gcc
 ```
 
 #### macOS
 ```bash
-brew install python@3.11 postgresql
+brew install python@3.11 mysql+pymysql
 ```
 
 ## Complete Setup Example
@@ -108,7 +108,7 @@ brew install python@3.11 postgresql
 ```bash
 # 1. Install system dependencies (Ubuntu example)
 sudo apt-get update
-sudo apt-get install -y python3.11 python3.11-venv libpq-dev gcc
+sudo apt-get install -y python3.11 python3.11-venv default-libmysqlclient-dev gcc
 
 # 2. Create virtual environment
 python3.11 -m venv venv
@@ -156,18 +156,18 @@ pip install setuptools>=61.0
 pip install .
 ```
 
-### Error: psycopg2-binary compilation fails
+### Error: pymysql compilation fails
 
-**Solution:** Install PostgreSQL development libraries
+**Solution:** Install MariaDB development libraries
 ```bash
 # Ubuntu/Debian
-sudo apt-get install libpq-dev python3-dev
+sudo apt-get install default-libmysqlclient-dev python3-dev
 
 # CentOS/RHEL
-sudo yum install postgresql-devel python3-devel
+sudo yum install mysql+pymysql-devel python3-devel
 
 # macOS
-brew install postgresql
+brew install mysql+pymysql
 ```
 
 ### Error: Permission denied

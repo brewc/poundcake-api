@@ -110,15 +110,15 @@ curl -X POST http://localhost:8000/api/v1/webhook \
 
 ### Database Access
 ```bash
-# Connect to PostgreSQL
-docker-compose exec postgres psql -U postgres -d poundcake
+# Connect to MariaDB
+docker-compose exec mariadb psql -U mariadb -d poundcake
 
 # Query alerts
-docker-compose exec postgres psql -U postgres -d poundcake -c \
+docker-compose exec mariadb psql -U mariadb -d poundcake -c \
   "SELECT fingerprint, alert_name, status, processing_status FROM alerts LIMIT 10;"
 
 # Query API calls
-docker-compose exec postgres psql -U postgres -d poundcake -c \
+docker-compose exec mariadb psql -U mariadb -d poundcake -c \
   "SELECT request_id, method, path, status_code FROM api_calls LIMIT 10;"
 ```
 
@@ -228,7 +228,7 @@ docker-compose logs -f worker
 ### Check Database
 ```bash
 # Row counts
-docker-compose exec postgres psql -U postgres -d poundcake -c "
+docker-compose exec mariadb psql -U mariadb -d poundcake -c "
   SELECT 'api_calls' as table_name, COUNT(*) as count FROM api_calls
   UNION ALL
   SELECT 'alerts', COUNT(*) FROM alerts
@@ -265,7 +265,7 @@ curl http://localhost:8000/api/v1/health
 
 # 4. Set up backups (example)
 # Backup script: backup.sh
-docker-compose exec postgres pg_dump -U postgres poundcake > backup_$(date +%Y%m%d).sql
+docker-compose exec mariadb pg_dump -U mariadb poundcake > backup_$(date +%Y%m%d).sql
 
 # 5. Monitor logs
 docker-compose logs -f
@@ -278,16 +278,16 @@ docker-compose logs -f
 ### Backup Database
 ```bash
 # Create backup
-docker-compose exec postgres pg_dump -U postgres poundcake > backup.sql
+docker-compose exec mariadb pg_dump -U mariadb poundcake > backup.sql
 
 # Or with timestamp
-docker-compose exec postgres pg_dump -U postgres poundcake > backup_$(date +%Y%m%d_%H%M%S).sql
+docker-compose exec mariadb pg_dump -U mariadb poundcake > backup_$(date +%Y%m%d_%H%M%S).sql
 ```
 
 ### Restore Database
 ```bash
 # Restore from backup
-docker-compose exec -T postgres psql -U postgres poundcake < backup.sql
+docker-compose exec -T mariadb psql -U mariadb poundcake < backup.sql
 ```
 
 ### Backup Everything (Docker volumes)

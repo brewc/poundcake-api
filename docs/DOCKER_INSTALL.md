@@ -218,7 +218,7 @@ cd poundcake-api
 
 This will:
 - Create `.env` file from template
-- Start all Docker containers (PostgreSQL, Redis, API, Workers, Flower)
+- Start all Docker containers (MariaDB, Redis, API, Workers, Flower)
 - Initialize the database
 - Verify services are running
 
@@ -470,7 +470,7 @@ docker stats
 
 # Enter a container shell
 docker-compose exec api bash
-docker-compose exec postgres psql -U postgres -d poundcake
+docker-compose exec mariadb psql -U mariadb -d poundcake
 ```
 
 ---

@@ -12,7 +12,7 @@ The PoundCake API is a distributed system designed to receive, process, and stor
 
 **Key Features**:
 - Request ID middleware for all non-GET requests
-- Automatic logging of all API calls to PostgreSQL
+- Automatic logging of all API calls to MariaDB
 - Async request handling
 - Health check endpoints for Kubernetes
 - CORS support for cross-origin requests
@@ -38,7 +38,7 @@ GET  /api/v1/stats/celery  - Celery stats
 - Memory: 512MB-1GB per instance
 - Recommended: 2-4 instances for HA
 
-### 2. PostgreSQL Database
+### 2. MariaDB Database
 
 **Purpose**: Long-term storage for alerts and API calls
 
@@ -237,7 +237,7 @@ Time  ‚ Event
 
 ### 2. Database Failures
 
-**Scenario**: PostgreSQL unavailable
+**Scenario**: MariaDB unavailable
 - **Impact**: 
   - API calls fail with 500
   - Task execution fails
@@ -448,7 +448,7 @@ WHERE processing_status IN ('pending', 'processing');
 **Database**:
 ```bash
 # Daily backups
-pg_dump -h localhost -U postgres poundcake > backup_$(date +%Y%m%d).sql
+pg_dump -h localhost -U mariadb poundcake > backup_$(date +%Y%m%d).sql
 
 # Continuous archiving (WAL)
 archive_mode = on
@@ -465,7 +465,7 @@ archive_command = 'cp %p /backup/wal/%f'
 **Database Recovery**:
 ```bash
 # Restore from backup
-psql -h localhost -U postgres -d poundcake < backup_20240109.sql
+psql -h localhost -U mariadb -d poundcake < backup_20240109.sql
 
 # Point-in-time recovery (if WAL archiving enabled)
 pg_restore -d poundcake -C backup.dump

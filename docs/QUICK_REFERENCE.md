@@ -58,17 +58,17 @@ curl -X POST http://localhost:8000/api/v1/webhook \
 ### Database Operations
 ```bash
 # Connect to database
-docker-compose exec postgres psql -U postgres -d poundcake
+docker-compose exec mariadb psql -U mariadb -d poundcake
 
 # View tables
-docker-compose exec postgres psql -U postgres -d poundcake -c "\dt"
+docker-compose exec mariadb psql -U mariadb -d poundcake -c "\dt"
 
 # Query alerts
-docker-compose exec postgres psql -U postgres -d poundcake -c \
+docker-compose exec mariadb psql -U mariadb -d poundcake -c \
   "SELECT fingerprint, alert_name, status, processing_status FROM alerts ORDER BY created_at DESC LIMIT 10;"
 
 # Query API calls
-docker-compose exec postgres psql -U postgres -d poundcake -c \
+docker-compose exec mariadb psql -U mariadb -d poundcake -c \
   "SELECT request_id, method, path, status_code, created_at FROM api_calls ORDER BY created_at DESC LIMIT 10;"
 ```
 
@@ -191,14 +191,14 @@ docker-compose restart worker
 
 ### Database Connection Issues
 ```bash
-# Check PostgreSQL is running
-docker-compose ps postgres
+# Check MariaDB is running
+docker-compose ps mariadb
 
 # View database logs
 docker-compose logs postgres
 
 # Test connection
-docker-compose exec postgres psql -U postgres -d poundcake -c "SELECT 1;"
+docker-compose exec mariadb psql -U mariadb -d poundcake -c "SELECT 1;"
 
 # Restart database (CAUTION: may cause downtime)
 docker-compose restart postgres
@@ -229,7 +229,7 @@ Key variables in `.env`:
 
 ```bash
 # Database
-DATABASE_URL=postgresql://postgres:postgres@postgres:5432/alertmanager
+DATABASE_URL=mysql+pymysql://poundcake:poundcake@mariadb:3306/alertmanager
 
 # Redis
 REDIS_URL=redis://redis:6379/0
